@@ -1,0 +1,19 @@
+-tipo_documento
+	-cedula de ciudadania
+	-tarjeta de identidad
+	-pasaporte
+-perfil
+	-administrador (administradores aplicación)
+	-moderadores   (administradores por región)
+	-gerentes      (administradores de cada local de las canchas)
+	-tecnicos      (administradores de equipos)
+	-jugadores     (usuarios normales)
+-tamano_cancha (investigar)
+	-
+-tipo_juego (investigar)
+	-futbol 11
+	-futbol 5
+	-futbol 6 
+-tipo_cancha
+	-cubierta
+	-descubierta

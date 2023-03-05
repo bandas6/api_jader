@@ -1,0 +1,410 @@
+{
+	"info": {
+		"_postman_id": "fa12779f-09e3-4315-a5f8-11c34a9bc9d5",
+		"name": "API_Canchas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "registrar usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"perfil_id\" : \"63f2e3b4b9df508afeedc299\",\r\n    \"nombre\" : \"jhon jader\",\r\n    \"apellido\" : \"estrada pizarro\",\r\n    \"correo\" : \"estradajhon07@gmail.com\",\r\n    \"telefono\" : \"3184535680\",\r\n    \"contrasenia\" : \"jhon1998\",\r\n    \"fecha_nacimiento\" : \"19/02/2023\",\r\n    \"foto_perfil\" : \"http://localhost/archivos/perfil.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obener un usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/usuario/id/63f56e15e8349dde946982f5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"usuario",
+								"id",
+								"63f56e15e8349dde946982f5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "b",
+									"disabled": true
+								},
+								{
+									"key": "correo",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "perfil_id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(ADMIN) listar usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/usuarios/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"usuarios",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "j",
+									"disabled": true
+								},
+								{
+									"key": "correo",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "perfil_id",
+									"value": "63f2e3b4b9df508afeedc299",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inactivar un usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/usuario/id/63f56e15e8349dde946982f5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"usuario",
+								"id",
+								"63f56e15e8349dde946982f5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizar usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"perfil_id\" : \"63f2e3b4b9df508afeedc299\",\r\n    \"nombre\" : \"jhon jader\",\r\n    \"apellido\" : \"estrada pizarro\",\r\n    \"correo\" : \"estradajhon07@gmail.com\",\r\n    \"telefono\" : \"3184535680\",\r\n    \"fecha_nacimiento\" : \"19/02/2023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/usuario/id/63f56e15e8349dde946982f5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"usuario",
+								"id",
+								"63f56e15e8349dde946982f5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "lista maestra",
+			"item": [
+				{
+					"name": "registrar lista maestra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"1\",\r\n    \"nombre\" : \"tipo_perfil\",\r\n    \"etiqueta\" : \"Tipo Perfil\",\r\n    \"fecha_creacion\" : \"19/02/2023\",\r\n    \"fecha_modificacion\" : \"19/02/2023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/listasMaestra",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"listasMaestra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener todas las listas maestras",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/listasMaestra",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"listasMaestra"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "opciones lista maestra",
+			"item": [
+				{
+					"name": "registrar opcion lista maestra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lista_maestra_id\" : \"1\",\r\n    \"nombre\" : \"jugador\",\r\n    \"etiqueta\" : \"Jugador\",\r\n    \"fecha_creacion\" : \"19/02/2023\",\r\n    \"fecha_modificacion\" : \"19/02/2023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/opcionesListaMaestra",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"opcionesListaMaestra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar opciones de una lista maestra",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/opcionesListaMaestra/63f2f154c9532298b049a16c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"opcionesListaMaestra",
+								"63f2f154c9532298b049a16c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener una opcion lista maestra especifica",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/opcionListaMaestra/id/63f2e41fb9df508afeedc29d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"opcionListaMaestra",
+								"id",
+								"63f2e41fb9df508afeedc29d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(ADMIN) listar opciones de una lista maestra",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/opcionesListaMaestra/admin/63f2f154c9532298b049a16c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"opcionesListaMaestra",
+								"admin",
+								"63f2f154c9532298b049a16c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\" : \"estradajhon07@gmail.com\",\r\n    \"contrasenia\" : \"jhon1998\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

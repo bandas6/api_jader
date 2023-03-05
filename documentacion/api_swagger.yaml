@@ -1,0 +1,1174 @@
+openapi: 3.0.0 
+info:
+  title: API-CANCHAS
+  description: API para la aplicación CANCHAS
+  version: 1.0.0
+    
+tags: 
+  - name: "Seguridad"
+    description: "Servicios de autenticación y registro"
+  - name: "Administración"
+    description: "Servicios de administración"
+    
+paths:
+  /login:
+    post:
+      tags:
+        - "Seguridad"
+      description: "Servicio para la autenticación de un usuario"
+      security: 
+        []
+      requestBody:
+        description: Se envía las credenciales para autenticarse 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  description: "puede ser numero celular o email"
+                  type: string
+                  example: "usuario123@mail.com"
+                contrasena:
+                  type: string
+                  format: password
+                  example: "123456"
+        required: true
+      responses:
+        200:
+          description: "Login Exitoso! <br />
+                        Se valida: <br />
+                        - Que el correo sea valido <br/>
+                        - Que la contraseña sea valida <br/>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  usuario:
+                    $ref: '#/components/schemas/Usuario'
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+  
+  /registro:
+    post:
+      tags: 
+      - "Seguridad"
+      description: "Servicio que permite el registro de los usuarios"
+      security: 
+        []
+      requestBody:
+        description: Servicio que permite el enviar los datos de un usuario para su registro
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registro'
+        required: true
+      responses:
+        200:
+          description: "Usuario registrado exitosamente! <br />
+                      Se valida: <br />
+                      - Que la contraseña tenga al menos 6 caracteres<br/>
+                      - Que el telefono no exista en la base de datos<br/>
+                      - Que el correo no exista en la base de datos"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  usuario:
+                    $ref: '#/components/schemas/Registro'
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+                   
+  /registro/validacion/{token}:
+    get:
+      tags:
+        - "Seguridad"
+      description: "Servicio para la validación de un usuario"
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: "Token para la validación del usuario"
+          schema:
+            type: string
+      security: 
+        []
+      responses:
+        200:
+          description: "Verificación Exitosa! <br />
+                        Se valida: <br />
+                        - Que el token sea valido <br/>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  usuario:
+                    $ref: '#/components/schemas/Usuario'
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+        
+  /cambiarContrasenia:
+    post: 
+      tags: 
+      - "Seguridad"
+      description: "Servicio que permite solicitar el cambio de contraseña"
+      security: 
+        []
+      requestBody:
+        description: Se envía el correo para solicitar el cambio de contraseña 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: string
+                  example: "usuario123@mail.com"
+        required: true
+      responses:
+        200:
+          description: "solicitud exitosa! <br />
+                        Se valida: <br />
+                        - Que el correo sea valido <br/>
+                        - Que el correo este registrado <br/>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Se envio un mensaje a tu correo, revisa por favor!"
+                    
+          
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+                    
+  /cambiarContrasenia/{token}:
+    get:
+      tags:
+        - "Seguridad"
+      description: "Servicio para la validación del token para el cambio de la contraseña"
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: "Token para la verificación del cambio de la contraseña"
+          schema:
+            type: string
+      security: 
+        []
+      responses:
+        200:
+          description: "Verificación Exitosa! <br />
+                        Se valida: <br />
+                        - Que el token sea valido <br/>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Token verificado!"
+                  token: 
+                    type: string
+                    example: "scfwfewf34534tergf4554ty546y56t54t"
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+                    
+    post:
+      tags: 
+      - "Seguridad"
+      description: "Servicio que permite cambiar la contraseña"
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: "Token para la verificación del cambio de la contraseña"
+          schema:
+            type: string
+      security: 
+        []
+      requestBody:
+        description: Se envía la contraseña para el cambio 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contrasena:
+                  type: string
+                  example: "dgfdgreg45645645"
+        required: true
+      responses:
+        200:
+          description: "Proceso exitoso! <br />
+                        Se valida: <br />
+                        - Que la contraseña tenga minimo 6 caracteres<br>
+                        - Que no este vacio el campo <br/>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Tu constraseña ha sido actualizada!"
+                    
+          
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+
+  /configuracion:
+    get:
+      tags:
+        - "Administración"
+      description: "Lista la configuración"
+      security: 
+        []
+      parameters:
+        - name: variable
+          in: query
+          description: "Nombre o parte de la variable de configuración a buscar"
+          required: false
+          schema:
+            type: string
+        - name: num_pagina
+          in: query
+          description: "Número de página a traer (Paginación)"
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: registros_x_pagina
+          in: query
+          description: Número de registros a traer (Paginación) <br> <font color="blue"> -1 trae todos los registros </font>
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: Lista de la configuración del sistema
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  num_pagina:
+                    type: integer
+                    example: 1
+                  registros_x_pagina:
+                    type: integer
+                    example: 10
+                  total_registros:
+                    type: integer
+                    example: 34
+                  total_paginas:
+                    type: integer
+                    example: 4
+                  exito:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Configuracion'
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+    
+  /configuracion/{variable}:
+    put:
+      tags:
+        - "Administración"
+      description: "Servicio para actualizar la configuración"
+      security: 
+        []
+      parameters:
+        - name: variable
+          in: path
+          required: true
+          description: "variable de la configuración que se va actualizar"
+          schema:
+            type: string
+      requestBody:
+        description: "Envia la información de la configuración que se desea actualizar "
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Configuracion'
+      responses:
+        200:
+          description: "Actualización exitosa! <br/>
+                        Se valida: <br/>
+                        -Que la variable exista<br>
+                        -Que el nuevo valor de la varible no lo contenga otra varible igual"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  configuracion:
+                      $ref: '#/components/schemas/Configuracion'
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+               
+  /listasMaestras/obtenerPorNombre/{nombre}:
+    get:
+      tags:
+        - "Administración"
+      description: "Retorna la una lista maestra específica consultada por el nombre y las opciones asociadas a ella"
+      parameters:
+        - name: nombre
+          in: path
+          description: "Nombre o parte del nombre de la lista maestra a buscar"
+          required: true
+          schema:
+            type: string
+        - name: num_pagina
+          in: query
+          description: "Número de página a traer (Paginación)"
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: registros_x_pagina
+          in: query
+          description: Número de registros a traer (Paginación) <br> <font color="blue"> -1 trae todos los registros </font>
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: "lista maestra especifica y sus respectivas opciones, filtada por nombre.<br>
+              Se debe validar: <br>
+              - Que las cabeceras sean válidas </br>
+              - Que la lista maestra exista</br>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito:
+                    type: boolean
+                    example: true
+                  num_pagina:
+                    type: integer
+                    example: 1
+                  registros_x_pagina:
+                    type: integer
+                    example: 10
+                  total_registros:
+                    type: integer
+                    example: 34
+                  total_paginas:
+                    type: integer
+                    example: 4
+                  lista_maestra:
+                      allOf:
+                        - $ref: '#/components/schemas/ListaMaestra'
+                        - type: object
+                          properties:
+                            opciones: 
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/OpcionesListaMaestra'
+          
+        400:
+          description: "Hubo un error en la petición.<br/>
+              Se debe validar: <br/>
+              - Que las cabeceras sean válidas </br>
+              - Que la lista maestra exista"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    enum: 
+                      - "error, token invalido"
+                      - "error, api key invalido"
+                      - "error, el id de la lista maestra no existe"
+                      
+  /ubicaciones:
+    get:
+      tags:
+        - "Administración"
+      description: "Lista las ubicaciones"
+      parameters:
+        - name: num_pagina
+          in: query
+          description: "Número de página a traer (Paginación)"
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: nombre
+          in: query
+          description: "Nombre o parte del nombre de la ubicación"
+          required: false
+          schema:
+            type: string
+        - name: registros_x_pagina
+          in: query
+          description: Número de registros a traer (Paginación) <br> <font color="blue"> -1 trae todos los registros </font>
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: Lista de las ubicaciones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito:
+                    type: boolean
+                    example: true
+                  num_pagina:
+                    type: integer
+                    example: 1
+                  registros_x_pagina:
+                    type: integer
+                    example: 10
+                  total_registros:
+                    type: integer
+                    example: 34
+                  total_paginas:
+                    type: integer
+                    example: 4
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ubicacion'
+        400:
+          description: "Hubo un error en la petición.<br/>
+              Se debe validar: <br/>
+              - Que las cabeceras sean válidas </br>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    enum: 
+                      - "error, token invalido"
+                      - "error, api key invalido"  
+                      
+  /usuarios:
+    get:
+      tags:
+        - "Administración"
+      description: "Lista todos los usuarios"
+      security: 
+        []
+      parameters:
+        - name: nombre
+          in: query
+          description: "Escribir el nombre o apellido del usuario a buscar"
+          required: false
+          schema:
+            type: string
+        - name: perfil_id
+          in: query
+          description: "El id del perfil del usuario a buscar"
+          required: false
+          schema:
+            type: integer
+        - name: num_pagina
+          in: query
+          description: "Número de página a traer (Paginación)"
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: registros_x_pagina
+          in: query
+          description: Número de registros a traer (Paginación) <br> <font color="blue"> -1 trae todos los registros </font>
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: Lista de los usuarios del sistema
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  num_pagina:
+                    type: integer
+                    example: 1
+                  registros_x_pagina:
+                    type: integer
+                    example: 10
+                  total_registros:
+                    type: integer
+                    example: 34
+                  total_paginas:
+                    type: integer
+                    example: 4
+                  exito:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Usuario'
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+    
+    post:
+      tags: 
+      - "Administración"
+      description: "Servicio que permite el registro de los usuarios"
+      security: 
+        []
+      requestBody:
+        description: Se envia los datos para registrar un usuario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        200:
+          description: "Usuario registrado exitosamente! <br />
+                        Se valida: <br />
+                        - Que el correo sea valido <br/>
+                        - Que el correo no exista en la base de datos"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  usuario:
+                    $ref: '#/components/schemas/Usuario'
+                  
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+
+  /usuarios/{id}:
+    get:
+      tags:
+        - "Administración"
+      description: "Obtiene un usuario en especifico <br/>
+                    Se valida: <br />
+                        - Que sea un id valido asociado a un usuario<br/>"
+      security: 
+        []
+      parameters:
+        - name: id
+          in: path
+          description: "Id del usuario a consultar"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito:
+                    type: boolean
+                    example: true
+                  usuario:
+                    allOf:
+                        - $ref: '#/components/schemas/Usuario'
+                        - type: object
+                          properties:
+                            ver_video_fertilizacion_riego:
+                              type: boolean
+                              example: true
+                      
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"
+    
+    put:
+      tags:
+        - "Administración"
+      description: "Servicio para actualizar los datos de un usuario"
+      security: 
+        []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Id del usuario que se va actualizar"
+          schema:
+            type: integer
+      requestBody:
+        description: "Envia la información del usuario que se desea actualizar "
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+              
+      responses:
+        200:
+          description: "Usuario actualizado exitosamente! <br />
+                        Se valida: <br />
+                        - Que el correo sea valido <br/>
+                        - Que la constraseña tenga al menos 6 caracteres <br/>
+                        - Que el correo no exista en la base de datos"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  usuario:
+                    allOf:
+                        - $ref: '#/components/schemas/Usuario'
+                        - type: object
+                          properties:
+                            ver_video_fertilizacion_riego:
+                              type: boolean
+                              example: true
+        400:
+          description: Hubo un error en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Hubo el siguiente error"             
+  
+  /usuarios/{id}/archivo:
+    post:
+      tags:
+        - "Administración"
+      description: Servicio para cargar el foto de un usuario
+      parameters:
+        - name: id
+          in: path
+          description: "Id del usuario al que se le va a subir la foto"
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Carga la foto de un usuario
+        content:
+          'file/png':
+            schema:
+              type: string
+              format: binary
+          'file/jpg':
+            schema:
+              type: string
+              format: binary
+          form-data:
+            schema:
+              $ref: '#/components/schemas/UsuarioAdjunto'
+        required: true
+      responses:
+        200:
+          description: "Carga exitosa de la foto de un usuario. <br/>
+              Se debe validar: <br/>
+              - Que las cabeceras sean válidas </br>
+              - Que el usuario si exista </br>
+              - Que el archivo tenga el formato de extension correcto</br>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  exito: 
+                    type: boolean
+                    example: true
+                  url_foto:
+                    $ref: '#/components/schemas/UsuarioAdjunto'
+                  
+        400:
+          description: "Hubo un error en la petición.<br/>
+              Se debe validar: <br/>
+              - Las cabecera de la petición no son válidas</br>"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exito: 
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+  
+
+components:
+  schemas:      
+  
+    Configuracion:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        variable:
+          type: string
+          example: " nombre variable"
+          readOnly: true
+        valor:
+          type: string
+          example: "valor"
+        descripcion:
+          type: string
+          example: "descripción de la variable"
+    
+    ListaMaestra:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        nombre: 
+          type: string
+          example: "lista_1"
+        etiqueta: 
+          type: string
+          example: "Lista 1"
+        activo:
+          type: integer
+          example: 1
+          writeOnly: true
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        fecha_modificacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+          
+    OpcionListaMaestra:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        lista_maestra_id:
+          type: integer
+          example: 1
+          writeOnly: true
+        lista_maestra:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/ListaMaestra"
+        nombre: 
+          type: string
+          example: "opcion_1"
+        etiqueta: 
+          type: string
+          example: "Opción 1"
+        activo:
+          type: integer
+          example: 1
+          writeOnly: true
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        fecha_modificacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+          
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id del usuario
+          example: 2323
+          readOnly: true
+        perfil_id:
+          type: integer
+          example: 1
+          writeOnly: true
+        perfil:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/OpcionListaMaestra"
+        nombres:
+          type: string
+          example: arnold
+        apellidos:
+          type: string
+          example: alonso
+        nombre_completo:
+          readOnly: true
+          type: string
+          example: "arnold alonso"
+        correo:
+          type: string
+          example: arnold.alonso@correo.com
+        
+        telefono:
+          type: string
+          example: 3112345678
+        contrasenia:
+          type: string
+          example: "LuisGC1234.#"
+          writeOnly: true
+        activo:
+          type: boolean
+          example: true
+          readOnly: true
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        fecha_modificacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        foto_perfil:
+          readOnly: true
+          type: string
+          example: "Luis Gabriel Cortes Jacanamijoy"
+        fecha_nacimiento:
+          type: string
+          format: date-time
+          example: 1998-07-21
+          readOnly: true
+        verificado:
+          description: "aplica para los perfiles distintos a jugador se usa para validar que el usuario se verifico por los administradores"
+          type: boolean
+          example: true
+          readOnly: true
+          
+    UsuarioAdjunto:
+      type: object
+      properties:
+        archivo:
+          type: string
+          example: "foto.jpg"
+          writeOnly: true
+        url_foto: 
+          readOnly: true
+          type: string
+          example: "wwww.example.com/logo.jpg"
+    
+    Registro:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id del usuarioo
+          example: 2323
+          readOnly: true
+        tipo_usuario_id:
+          type: integer
+          example: 1
+          writeOnly: true
+        tipo_usuario:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/OpcionListaMaestra"
+        nombres:
+          type: string
+          example: arnold
+        apellidos:
+          type: string
+          example: alonso
+        correo:
+          type: string
+          example: arnold.alonso@correo.com
+        telefono:
+          type: string
+          example: 3112345678
+        contrasenia:
+          type: string
+          example: "LuisGC1234.#"
+          writeOnly: true
+  
+    TipoUbicacionPadre:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        activo:
+          type: boolean
+          example: true
+        nombre:
+          type: string
+          example: "America Del Sur"
+          
+    OpcionesListaMaestra:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        activo:
+          type: boolean
+          example: true
+        nombre: 
+          type: string
+          example: "masculino"
+        etiqueta: 
+          type: string
+          example: "masculino"
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        fecha_modificacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+    
+    Ubicacion:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        activo:
+          type: boolean
+          example: true
+        nombre:
+          type: string
+          example: "Colombia"
+        ubicacion_padre:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/TipoUbicacionPadre"
+        tipo_ubicacion:
+          readOnly: true
+          allOf:
+            - $ref: "#/components/schemas/TiposUbicacion"
+        tipo_ubicacion_id:
+          type: integer
+          example: 1
+          writeOnly: true
+        ubicacion_padre_id:
+          type: integer
+          example: 2
+          writeOnly: true
+        codigo:
+          type: integer
+          example: 2
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        fecha_modificacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+
+    TiposUbicacion:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          readOnly: true
+        activo:
+          type: boolean
+          example: true
+        nombre:
+          type: string
+          example: "País"
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        fecha_modificacion:
+          type: string
+          format: date-time
+          example: 2017-07-21 T17:32:28Z
+          readOnly: true
+        
+    
+

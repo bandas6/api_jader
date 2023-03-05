@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "63f2dee6404deabf089736b4"
+  },
+  "activo": false,
+  "verificado": false,
+  "perfil_id": 1,
+  "nombre": "jhon jader",
+  "apellido": "estrada pizarro",
+  "correo": "estradajhon07@gmail.com",
+  "telefono": "3184535680",
+  "contrasenia": "jhon1998",
+  "fecha_creacion": "19/02/2023",
+  "fecha_modificacion": "19/02/2023",
+  "foto_perfil": "http://localhost/archivos/perfil.png",
+  "fecha_nacimiento": "19/02/2023",
+  "__v": 0
+}]
